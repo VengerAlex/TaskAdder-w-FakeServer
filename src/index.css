@@ -50,6 +50,7 @@ h1,h2,h3,h4,h5,h6,p{
   font-size: 13px;
 }
 .task{
+  position: relative;
   background: #f4f4f4;
   margin-bottom: 10px;
   padding: 10px 20px;
@@ -58,4 +59,27 @@ h1,h2,h3,h4,h5,h6,p{
 }
 .task-date{
   font-size: 13px;
+}
+.footer{
+  margin-top: 90px;
+  text-align: center;
+}
+.link{
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.copy{
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+}
+.close{
+  position: absolute;
+  top: 15%;
+  right: 2%;
+  color: red;
 }

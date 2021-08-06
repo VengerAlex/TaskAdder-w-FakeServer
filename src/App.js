@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import Tasks from './components/Tasks';
+import Footer from './components/Footer';
 import { useState } from 'react'
 
 const App = () => {
@@ -24,11 +25,17 @@ const App = () => {
     }
   ])
 
+  const tasksIsEmpty = 'There is no task\'s for today';
+
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks} />
-    </div>
+      {tasks.length > 0 ?
+        (<Tasks tasks={tasks} />) :
+        (<div style={{ fontSize: '20px', fontWeight: '600', textAlign: 'center', marginTop: '60px' }}>
+          {tasksIsEmpty}</div>)}
+      <Footer />
+    </div >
   );
 }
 
