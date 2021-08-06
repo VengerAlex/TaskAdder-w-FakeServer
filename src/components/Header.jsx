@@ -1,11 +1,12 @@
 import Button from "./Button";
 
 
-const Header = () => {
+const Header = ({ onAdd, showAddTask }) => {
+
 	return (
 		<header className="header">
 			<h4>Task Manager</h4>
-			<Button />
+			<Button onAdd={onAdd} text={showAddTask ? 'Close' : 'Add Text'} color={showAddTask ? 'purple' : 'black'} />
 		</header>
 	)
 }
