@@ -21,10 +21,7 @@ const App = () => {
       : alert('Error Deleting This Task')
   }
 
-  //toggleReminder
-  const toggleReminder = (id) => {
-    setTasks(tasks.map((el) => el.id === id ? { ...el, reminder: !el.reminder } : el))
-  }
+
 
   //AddTask
   const addTask = async (task) => {
@@ -58,6 +55,36 @@ const App = () => {
     const data = await res.json()
 
     return data
+  }
+
+  //Fetch Task1
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`)
+    const data = await res.json()
+
+    return data
+  }
+
+  //toggleReminder
+  const toggleReminder = async (id) => {
+    const taskToToggle = await fetchTask(id)
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
+
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updTask),
+    })
+
+    const data = await res.json()
+
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: data.reminder } : task
+      )
+    )
   }
 
   const tasksIsEmpty = 'There is no task\'s for today';
