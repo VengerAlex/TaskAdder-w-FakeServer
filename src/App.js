@@ -4,34 +4,21 @@ import Footer from './components/Footer';
 import AddTask from "./components/AddTask";
 import About from './components/About';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const App = () => {
   const [showAddTask, setShowAddTask] = useState(true);
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: 'Playing video games',
-      day: 'Friday',
-      reminder: true
-    },
-    {
-      id: 2,
-      text: 'Reading a book',
-      day: 'Thursday',
-      reminder: false
-    },
-    {
-      id: 3,
-      text: 'Learning English',
-      day: 'Saturday',
-      reminder: false
-    }
-  ])
+  const [tasks, setTasks] = useState([])
 
   //DeleteTasks
-  const deleteTasks = id => {
-    setTasks(tasks.filter(el => el.id !== id))
+  const deleteTasks = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'DELETE',
+    })
+
+    res.status === 200
+      ? setTasks(tasks.filter((task) => task.id !== id))
+      : alert('Error Deleting This Task')
   }
 
   //toggleReminder
@@ -40,11 +27,37 @@ const App = () => {
   }
 
   //AddTask
-  const addTask = task => {
-    const id = Math.floor((Math.random() * 1000) + 1);
+  const addTask = async (task) => {
+    const res = await fetch('http://localhost:5000/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
 
-    const newTask = { id, ...task };
-    setTasks([...tasks, newTask])
+    const data = await res.json();
+
+    setTasks([...tasks, data]);
+
+
+  }
+
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
+    }
+
+    getTasks()
+  }, [])
+
+  //Fetch Ts
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json()
+
+    return data
   }
 
   const tasksIsEmpty = 'There is no task\'s for today';
