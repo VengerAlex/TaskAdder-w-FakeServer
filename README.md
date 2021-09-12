@@ -1,2 +1,2 @@
-# project: react-task-adder with rest api
+# project: react-task-adder with full rest api
 
